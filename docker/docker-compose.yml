@@ -1,47 +1,42 @@
-version: "3.8"
-
 services:
   app:
     build:
-      context: ../                # リポジトリルート
+      context: ../
       dockerfile: docker/Dockerfile
     container_name: fuelphp-app
-    ports:
-      - "80:80"                   # http://localhost/
+    ports: ["80:80"]
     volumes:
-      - ../:/var/www/html/my_fuel_project   # 開発中はホットリロード用のbind mount
+      - ../:/var/www/html/my_fuel_project
     environment:
-      # FuelPHP から env() / getenv() で読む想定
       FUEL_ENV: development
-      DB_HOST: db                 # ← ここが超重要：コンテナ間は "db" で接続
+      DB_HOST: db
       DB_NAME: fuelphp
       DB_USER: appuser
       DB_PASSWORD: secret
     depends_on:
       db:
         condition: service_healthy
-    networks:
-      - fuelphp-network
+    restart: unless-stopped
+    networks: [fuelphp-network]
 
   db:
-    image: mysql:8.0              # カスタムDockerfileが不要なら公式イメージでOK
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: fuelphp
       MYSQL_USER: appuser
       MYSQL_PASSWORD: secret
     command: ["--default-authentication-plugin=mysql_native_password"]
-    ports:
-      - "3306:3306"               # 競合するなら "4306:3306" 等に変更
+    ports: ["3306:3306"]
     volumes:
-      - dbdata:/var/lib/mysql     # ← データ永続化
+      - dbdata:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 5s
       timeout: 3s
       retries: 20
-    networks:
-      - fuelphp-network
+    restart: unless-stopped
+    networks: [fuelphp-network]
 
 volumes:
   dbdata:
