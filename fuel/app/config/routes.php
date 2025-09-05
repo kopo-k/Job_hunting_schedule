@@ -1,7 +1,6 @@
 <?php
-return array(
-	'_root_'  => 'welcome/index',  // The default route
-	'_404_'   => 'welcome/404',    // The main 404 route
-	
-	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-);
+return [
+  '_root_' => 'applications/index',     // ← トップで一覧を出す
+  'applications' => 'applications/index',
+  'applications/create' => 'applications/create',
+];
