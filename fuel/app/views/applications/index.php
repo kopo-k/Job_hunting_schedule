@@ -131,5 +131,36 @@
   <hr>
   <p><a href="/applications/create">新規作成</a></p>
 
+  <hr>
+<h2>（Knockout）企業の追加・一覧（非同期）</h2>
+
+<div id="ko-app">
+  <form data-bind="submit: addCompany" style="margin-bottom:12px">
+    <input placeholder="会社名" data-bind="value: newName, valueUpdate:'input'">
+    <select data-bind="options: statuses, optionsText: 'label_ja', optionsValue: 'id', value: newStatusId"></select>
+    <button type="submit">追加</button>
+    <span data-bind="visible: error" style="color:#d00; margin-left:8px" data-bind-text="error"></span>
+  </form>
+
+  <ul data-bind="foreach: companies">
+    <li>
+      <strong data-bind="text: name"></strong>
+      <small>（status_id: <span data-bind="text: status_id"></span>）</small>
+      <button data-bind="click: $parent.removeCompany">削除</button>
+    </li>
+  </ul>
+</div>
+
+<h2>カレンダー</h2>
+<div id="calendar-root"></div>
+<script type="module" src="/assets/js/react-bundle.js"></script>
+
+
+<!-- Knockout 本体（ローカル配置） -->
+<script src="/assets/js/vendor/knockout-3.5.1.js"></script>
+<!-- KO アプリ -->
+<script src="/assets/js/app.js"></script>
+
+
 </body>
 </html>

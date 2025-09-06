@@ -47,3 +47,9 @@ ERROR - 2025-09-05 18:59:56 --> Runtime Deprecated code usage - Non-static metho
 WARNING - 2025-09-05 19:04:02 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
 ERROR - 2025-09-05 19:04:02 --> Compile Error - Cannot declare class Controller_Base, because the name is already in use in /var/www/html/my_fuel_project/fuel/app/classes/controller/applications.php on line 41
 WARNING - 2025-09-05 19:06:21 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:14:20 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:19:37 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:19:37 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:19:37 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:20:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2025-09-05 19:20:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
