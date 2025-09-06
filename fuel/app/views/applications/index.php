@@ -155,6 +155,13 @@
 <div id="calendar-root"></div>
 <script type="module" src="/assets/js/react-bundle.js"></script>
 
+<!-- KO は従来どおり -->
+<script src="/assets/js/vendor/knockout-3.5.1.js"></script>
+<script src="/assets/js/app.js"></script>
+
+<!-- React バンドルは分離先から -->
+<script type="module" src="/assets/react/react-bundle.js"></script>
+
 
 <!-- Knockout 本体（ローカル配置） -->
 <script src="/assets/js/vendor/knockout-3.5.1.js"></script>

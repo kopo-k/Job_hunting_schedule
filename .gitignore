@@ -1,0 +1,7 @@
+# Vite のビルド出力
+/public/assets/react/
+
+# js フォルダは手書き資産だけ追跡（app.js と vendor 配下）
+/public/assets/js/*
+!/public/assets/js/app.js
+!/public/assets/js/vendor/
