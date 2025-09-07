@@ -1,7 +1,2 @@
 <?php
-return array(
-	'_root_'  => 'welcome/index',  // The default route
-	'_404_'   => 'welcome/404',    // The main 404 route
-	
-	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-);
+return ['_root_' => 'kanban/index']; // 既存の api ルートは併記でOK
