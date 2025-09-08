@@ -1,0 +1,171 @@
+/* Base */
+body {
+  font-family: system-ui, sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* ---- Brand area ---- */
+.brand--stack{
+  display:flex;
+  align-items:center;
+  gap:12px;                /* アイコンと文字の間 */
+}
+
+/* 青い角丸タイル */
+.brand-mark{
+  width:32px;
+  height:32px;
+  background:#2563eb;      /* お好みで #1d4ed8 など */
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+}
+.brand-glyph{
+  width:24px;
+  height:24px;
+  color:#fff;              /* stroke=currentColor が白になる */
+}
+
+/* タイトル文字 */
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.brand-ja-1{
+  font-weight:800;
+  font-size:20px;
+  line-height:1.05;
+  color:#0f172a;           /* ほぼ黒 */
+}
+
+.brand-ja-2{
+  font-weight:800;
+  font-size:20px;
+  line-height:1.05;
+  letter-spacing:.18em;    /* 画像のようにトラッキングを広げる */
+  color:#0f172a;
+}
+
+.brand-en{
+  font-size:12px;
+  color:#6b7280;           /* グレー */
+  margin-top:2px;
+}
+
+/* 既存 .sub は右側の「ゲストユーザー」に使用中 */
+.sub{ font-size:12px; color:#6b7280; }
+
+/* レスポンシブ（横幅が狭いときは少し縮める） */
+@media (max-width: 720px){
+  .brand-mark{ width:52px; height:52px; border-radius:12px; }
+  .brand-glyph{ width:26px; height:26px; }
+  .brand-ja-1{ font-size:26px; }
+  .brand-ja-2{ font-size:30px; letter-spacing:.12em; }
+  .brand-en{ font-size:14px; }
+}
+
+.sub   { font-size: 12px; color: #6b7280; }
+
+/* Layout */
+main { padding: 24px; }
+
+/* 見出しとボタンの行（←NEW） */
+.section-header{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0;
+}
+.section-title { max-width: 720px; } /* 説明文の折返し用（任意） */
+
+/* ツールバー（行内用に余白を0へ調整） */
+.toolbar{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0; /* 余白は .section-header が持つ */
+}
+/* 見出し行内のボタンを上端そろえ */
+.section-header .toolbar{
+  align-self: flex-start;
+}
+
+button, input {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #00A0AD;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Board: 8 columns grid */
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* Column */
+.col {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px;
+  min-height: 360px;
+}
+.col h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 8px;
+}
+
+/* UI bits */
+.badge {
+  font-size: 12px;
+  border-radius: 999px;
+  padding: 2px 8px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 10px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  cursor: grab;
+}
+.title { font-weight: 600; margin-bottom: 6px; }
+.meta  {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.page-sub{
+  margin: 0;
+  color: #575757;
+}
+
+/* DnD highlight */
+.droptarget { outline: 2px dashed #93c5fd; outline-offset: -6px; }
