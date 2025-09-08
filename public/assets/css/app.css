@@ -109,10 +109,11 @@ button, input {
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-  background: #00A0AD;
-  color: #fff;
+  background: #fff;
+  color: #000;
   cursor: pointer;
 }
+
 
 /* Board: 8 columns grid */
 .board {
@@ -166,6 +167,96 @@ button, input {
   margin: 0;
   color: #575757;
 }
+
+
+/* ===== Modal styles ===== */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.3);
+  backdrop-filter:saturate(80%) blur(1px);
+  z-index:1000;
+}
+.modal{
+  position:fixed;
+  inset: auto 0 auto 0; 
+  margin:auto; 
+  top:6vh;
+  width:min(480px, 92vw);
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.18);
+  padding:16px 16px 12px;
+  z-index:1001; /* バックドロップより前に */
+}
+.modal__header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.modal__lead{ color:#666; margin:6px 0 12px; }
+.modal__body .field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin:8px 0;
+}
+
+.modal__panel{
+  margin-top: 8px;                 /* ヘッダーと少し離す */
+  padding: 14px;                   /* 内側余白 */
+  background: #fAfAfA;             /* 薄いグレー背景 */
+  border: 1px solid #e5e7eb;       /* グレーの枠線 */
+  border-radius: 12px;             /* 角丸 */
+}
+
+.field--employment select{
+  width: 30%;           /* ラベル幅に合わせてセレクトをフィット */
+}
+
+.modal__body .grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.modal__footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:8px;
+}
+
+/* フォーム共通 */
+input,select,textarea{
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+
+/* ボタン */
+.btn--ghost{
+  padding:8px 14px;
+  border:1px solid #ddd;
+  background:#fff;
+  border-radius:10px;
+  color: #000;
+}
+.btn--primary{
+  padding:8px 14px;
+  border:0;
+  background:#12a596;
+  color:#fff;
+  border-radius:10px;
+}
+.iconbtn{
+  background:transparent;
+  border:0;
+  font-size:16px;
+  cursor:pointer;
+  color: #000;
+}
+
 
 /* DnD highlight */
 .droptarget { outline: 2px dashed #93c5fd; outline-offset: -6px; }
