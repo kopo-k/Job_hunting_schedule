@@ -1,7 +1,7 @@
 /* Base */
 body {
   font-family: system-ui, sans-serif;
-  background: #f6f7fb;
+  background: #fff;
   margin: 0;
 }
 
@@ -11,7 +11,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
-  background: #fff;
+  background: #f6f7fb;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -46,17 +46,14 @@ header {
 }
 
 .brand-ja-1{
-  font-weight:800;
   font-size:20px;
   line-height:1.05;
   color:#0f172a;           /* ほぼ黒 */
 }
 
 .brand-ja-2{
-  font-weight:800;
   font-size:20px;
   line-height:1.05;
-  letter-spacing:.18em;    /* 画像のようにトラッキングを広げる */
   color:#0f172a;
 }
 
@@ -81,7 +78,7 @@ header {
 .sub   { font-size: 12px; color: #6b7280; }
 
 /* Layout */
-main { padding: 24px; }
+main { padding: 16px 32px; }
 
 /* 見出しとボタンの行（←NEW） */
 .section-header{

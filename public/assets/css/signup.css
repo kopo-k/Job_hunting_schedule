@@ -1,0 +1,136 @@
+/* 画面レイアウト */
+.main-container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f3f4f6;
+}
+
+/* カード */
+.card {
+  width: min(480px, 92vw);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+}
+
+/* 見出し */
+.title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+.subtitle {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* フォームレイアウト */
+.signup-form { 
+  display: grid; 
+  gap: 16px; 
+}
+.field { 
+  display: grid; 
+  gap: 8px; 
+}
+
+/* ラベル行（左にアイコン＋テキスト） */
+.field__label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151; /* ラベル文字色 */
+}
+.field__label { 
+  font-size: 14px; 
+}
+
+/* ラベル用アイコン（Lucideは currentColor を使う） */
+.label-icon {
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
+}
+
+/* 入力行 */
+.input-wrap { 
+  position: relative; 
+}
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 10px 12px; /* デフォルトの左右余白 */
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;   /* スクショ寄せ：白背景 */
+  outline: none;
+  font-size: 14px;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.input::placeholder { color: #9ca3af; }
+.input:focus {
+  border-color: #10b981;               /* エメラルド系 */
+  box-shadow: 0 0 0 3px rgba(16,185,129,.15);
+}
+
+/* 右にトグル（目）を持つ行は右余白を広げる */
+.input-wrap.has-toggle .input { 
+  padding-right: 44px; 
+}
+
+/* 右アイコントグル（目） */
+.icon-right-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: none;
+
+  padding: 0;
+  margin: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.icon-right-btn:hover { background: #f3f4f6; }
+.icon-right { 
+  width: 20px; 
+  height: 20px; 
+  color: #9ca3af;   
+}
+.icon-right-btn.is-on .icon-right { color: #10b981; }
+
+/* 送信ボタンとフッタ */
+.btn-full { width: 100%; }
+.form-actions { margin-top: 4px; }
+.login-link {
+  margin-top: 12px;
+  text-align: center;
+  color: #6b7280;
+}
+.login-link a { 
+  color: #0ea5e9; 
+  text-decoration: underline; 
+}
+
+.signup-form .btn--primary {
+  min-height: 44px;           
+  padding-inline: 20px;       
+  font-size: 16px;            
+  display: inline-flex;       
+  align-items: center;
+  justify-content: center;
+}
+

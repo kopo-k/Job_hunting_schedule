@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="sub">新規登録</div>
+  <a class="sub" data-bind="click: goSignup">新規登録</a>
 </header>
 
 <main>
@@ -38,11 +38,11 @@
       <p class="page-sub">カンバンボードで応募状況を管理します<br>ドラッグで位置変更</p>
     </div>
     <div class="toolbar">
-      <button data-bind="click: openAdd">＋ 応募を追加</button>
+      <button class="btn--primary" data-bind="click: openAdd">＋ 応募を追加</button>
     </div>
   </div>
 
-<!-- モーダル -->
+<!-- 応募追加モーダル -->
   <div class="modal-backdrop" data-bind="visible: showAdd" style="display:none"></div>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addTitle"
       data-bind="visible: showAdd" style="display:none">
@@ -53,7 +53,7 @@
 
     <p class="modal__lead">応募の詳細情報を入力してください。</p>
 
-    <form class="modal__body" data-bind="submit: submitAdd">
+    <form class="modal__body">
       <div class="modal__panel">
         <label class="field">
           <span>企業名 *</span>
@@ -61,13 +61,17 @@
         </label>
 
         <div class="grid">
-          <label class="field">
-            <span>追加先ステータス *</span>
-            <select data-bind="options: statusOptions,
-                              optionsText: 'label',
-                              optionsValue: 'key',
-                              value: add.status_key"></select>
-          </label>
+        <label class="field">
+          <span>追加先ステータス *</span>
+            <select data-bind="
+              options: statusOptions,
+              optionsText: 'label',
+              optionsValue: 'key',
+              value: add.status_key
+            ">
+            </select>
+        </label>
+
           <label class="field">
             <span>職種</span>
             <input type="text" data-bind="value: add.position_title" placeholder="例: フロントエンド">
@@ -76,7 +80,7 @@
 
         <label class="field">
           <span>求人URL</span>
-          <input type="url" data-bind="value: add.job_url" placeholder="https://example.com">
+          <input type="url" data-bind="value: add.job_url" placeholder="例: https://example.com">
         </label>
 
         <label class="field field--employment">

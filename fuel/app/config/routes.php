@@ -1,2 +1,6 @@
 <?php
-return ['_root_' => 'kanban/index']; // 既存の api ルートは併記でOK
+return [
+  '_root_' => 'kanban/index',
+  'signup' => 'auth/signup',   // ← 追加
+  'login'  => 'auth/login',
+];
