@@ -1,0 +1,116 @@
+/* 背景・カード */
+.main-container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f3f4f6;
+}
+.card {
+  width: min(560px, 93vw);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.08);
+}
+
+/* 見出し */
+.title    { margin: 0 0 6px; text-align: center; font-size: 28px; font-weight: 700; }
+.subtitle { margin: 0 0 22px; text-align: center; color: #6b7280; }
+
+/* フォーム構成 */
+.login-form        { display: grid; gap: 18px; }
+.field             { display: grid; gap: 10px; }
+.field__label-row  { display: flex; align-items: center; gap: 10px; color: #374151; }
+.field__label      { font-size: 15px; }
+.label-icon        { width: 20px; height: 20px; color: #9ca3af; }
+
+/* 入力 */
+.input-wrap { position: relative; }
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 52px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  outline: none;
+  font-size: 15px;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.input--soft { background: #f8fafc; }
+.input::placeholder { color: #9ca3af; }
+.input:focus {
+  border-color: #cbd5e1;  /* 控えめなフォーカス */
+  box-shadow: none;
+  background: #fff;
+}
+
+/* 右に目アイコンがある行は右余白を確保 */
+.input-wrap.has-toggle .input { padding-right: 52px; }
+
+/* 右“目”ボタン */
+.icon-right-btn {
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+
+  appearance: none; -webkit-appearance: none;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+  padding: 0; margin: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.icon-right-btn:hover { background: #eef2f7; }
+
+/* 中のアイコンを中央に重ねて配置 */
+.icon-right-btn .icon-right {
+  position: absolute;
+  inset: 0; margin: auto;
+  width: 18px; height: 18px;
+  color: #6b7280;   /* currentColor */
+}
+
+/* 初期は eye を表示、eye-off を隠す（確実に効かせるため important） */
+.icon-right-btn .icon-eye     { display: inline !important; }
+.icon-right-btn .icon-eye-off { display: none   !important; }
+
+/* 表示状態（is-on）のときは逆にする */
+.icon-right-btn.is-on .icon-eye     { display: none   !important; }
+.icon-right-btn.is-on .icon-eye-off { display: inline !important; }
+
+/* 送信ボタン／フッタ */
+.btn-full { width: 100%; }
+.btn--xl {
+  min-height: 56px;
+  font-size: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.form-actions { margin-top: 6px; }
+.login-link { margin-top: 14px; text-align: center; color: #6b7280; }
+.login-link a { color: #0ea5e9; text-decoration: underline; }
+
+/* ボタンの簡易フォールバック（app.css が無い環境用） */
+.btn--primary {
+  background: #12a596; color:#fff; border:none; border-radius:12px;
+  padding: 14px 18px; cursor:pointer;
+}
+.btn--primary:hover { filter: brightness(0.95); }
+
+/* ブラウザ内蔵アイコン抑止（Safari/旧Edge） */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear { display: none; }
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-clear-button { display: none; }
+
+/* キーボード操作のフォーカス */
+.icon-right-btn:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}

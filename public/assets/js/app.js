@@ -34,9 +34,8 @@ function VM() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && self.showAdd()) self.closeAdd();
   });
-  
   //新規登録
-  self.goSignup = () => { window.location.href = '/signup'; }; 
+  self.goSignup = () => { window.location.href = '/signup'; }; // ← 追加
 }
 
 ko.applyBindings(new VM());
