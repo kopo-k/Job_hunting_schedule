@@ -1,5 +1,9 @@
 // 右の“目”で パスワード表示/非表示 を切り替える（表示制御は CSS に一本化）
 (() => {
+
+  //確認用
+  console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
   const BTN_SEL  = '.icon-right-btn';
   const ATTR_TGT = 'data-toggle';
   const CLASS_ON = 'is-on';

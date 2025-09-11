@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>就活スケジューラー</title>
+<meta name="csrf-token" content="<?= \Security::fetch_token(); ?>"><!-- CSRF -->
 <link rel="stylesheet" href="/assets/css/app.css">
 
 <header>
