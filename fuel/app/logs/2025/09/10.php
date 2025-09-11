@@ -120,3 +120,21 @@ WARNING - 2025-09-10 22:35:52 --> Fuel\Core\Fuel::init - The configured locale e
 WARNING - 2025-09-10 22:57:46 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
 WARNING - 2025-09-10 22:57:46 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
 WARNING - 2025-09-10 23:09:19 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2025-09-10 15:59:53 --> Fatal Error - Uncaught Fuel\Core\PhpErrorException: Constant Fuel\Core\E_STRICT is deprecated in /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php:70
+Stack trace:
+#0 /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php(163): [constant expression]()
+#1 /Users/k24032kk/intern_kadai/fuel/core/bootstrap.php(103): Fuel\Core\Errorhandler::error_handler(8192, 'Constant Fuel\\C...', '/Users/k24032kk...', 70)
+#2 /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php(125): {closure:/Users/k24032kk/intern_kadai/fuel/core/bootstrap.php:90}(8192, 'Constant Fuel\\C...', '/Users/k24032kk...', 70)
+#3 /Users/k24032kk/intern_kadai/fuel/core/bootstrap.php(87): Fuel\Core\Errorhandler::exception_handler(Object(TypeError))
+#4 [internal function]: {closure:/Users/k24032kk/intern_kadai/fuel/core/bootstrap.php:74}(Object(TypeError))
+#5 {main}
+  thrown in /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php on line 70
+ERROR - 2025-09-10 16:58:00 --> Fatal Error - Uncaught Fuel\Core\PhpErrorException: Constant Fuel\Core\E_STRICT is deprecated in /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php:70
+Stack trace:
+#0 /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php(163): [constant expression]()
+#1 /Users/k24032kk/intern_kadai/fuel/core/bootstrap.php(103): Fuel\Core\Errorhandler::error_handler(8192, 'Constant Fuel\\C...', '/Users/k24032kk...', 70)
+#2 /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php(125): {closure:/Users/k24032kk/intern_kadai/fuel/core/bootstrap.php:90}(8192, 'Constant Fuel\\C...', '/Users/k24032kk...', 70)
+#3 /Users/k24032kk/intern_kadai/fuel/core/bootstrap.php(87): Fuel\Core\Errorhandler::exception_handler(Object(ParseError))
+#4 [internal function]: {closure:/Users/k24032kk/intern_kadai/fuel/core/bootstrap.php:74}(Object(ParseError))
+#5 {main}
+  thrown in /Users/k24032kk/intern_kadai/fuel/core/classes/errorhandler.php on line 70
