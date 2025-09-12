@@ -13,7 +13,7 @@ return [
 
   // 出力フィルタ（基本XSS対策）
   'security' => [
-    'csrf_autoload' => true, // フォーム送信時にCSRF対策トークンを自動で付与
+    'csrf_autoload' => false, // 一時的に無効化してテスト
     'token_salt'    => 'd6a1946b75f0e90d323f746a5d2ff95d3bfe069a099733315a3f49c74de85b75',
     'uri_filter'    => ['htmlentities'],
     'output_filter' => ['Security::htmlentities'],

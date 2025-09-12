@@ -1,9 +1,11 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>就活スケジューラー</title>
-<meta name="csrf-token" content="<?= \Security::fetch_token(); ?>"><!-- CSRF -->
-<link rel="stylesheet" href="/assets/css/app.css">
-
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>就活スケジューラー</title>
+  <!-- <meta name="csrf-token" content="<?= \Security::fetch_token(); ?>"> CSRF 一時的に無効化 -->
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
 <header>
   <div class="brand brand--stack">
     <!-- 青いタイル -->

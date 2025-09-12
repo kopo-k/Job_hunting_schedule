@@ -1,22 +1,35 @@
 <?php
-// fuel/app/classes/controller/base.php
-//ページ表示の前処理
+
 class Controller_Base extends \Controller
 {
     protected $current_user = null;
-
+    
     public function before()
     {
         parent::before();
-
-        $uid = \Session::get('user_id');
-        if (!$uid) {
-            // APIなら401、画面ならログインへ
-            if (\Input::is_ajax() || strpos(\Input::uri(), 'api/') === 0) {
-                return \Response::forge(json_encode(['error'=>'unauthorized']), 401, ['Content-Type'=>'application/json']);
-            }
-            \Response::redirect('login');
+        
+        // セッション開始
+        try {
+            \Session::create();
+        } catch (\Exception $e) {
+            // セッションが既に開始されている場合は無視
         }
-        $this->current_user = (int)$uid;
+        
+        // 認証が必要なページかチェック
+        if ($this->needs_auth()) {
+            $user_id = \Session::get('user_id');
+            
+            if ($user_id) {
+                try {
+                    // ユーザー情報を取得（簡易的にセッションのIDをそのまま使用）
+                    $this->current_user = $user_id;
+                } catch (Exception $e) {
+                    \Session::delete('user_id');
+                    \Response::redirect('auth/login');
+                }
+            } else {
+                \Response::redirect('auth/login');
+            }
+        }
     }
 }
