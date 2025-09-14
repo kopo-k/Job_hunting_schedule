@@ -6,7 +6,12 @@ function csrf() {
   return m ? m.content : '';
 }
 function jsonHeaders() {
-  return { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf() };
+  const headers = { 'Content-Type': 'application/json' };
+  const token = csrf();
+  if (token) {
+    headers['fuel_csrf_token'] = token; // FuelPHP用のCSRFトークンフィールド
+  }
+  return headers;
 }
 function toCardRow(row) {
   // サーバ→UI のフィールド対応
@@ -88,12 +93,28 @@ function VM() {
   // ===== 初期ロード =====
   self.loadCompanies = function() {
     return fetch('/api/companies')
-      .then(r => r.ok ? r.json() : Promise.reject(r))
-      .then(rows => {
-        self.cards(rows.map(toCardRow));
-        self.initDragDrop(); // DOMが揃った後にD&Dを再初期化
+      .then(r => {
+        if (r.ok) {
+          // レスポンスが空の場合（204など）は空配列を返す
+          return r.status === 204 ? [] : r.json();
+        } else {
+          return Promise.reject(r);
+        }
       })
-      .catch(() => alert('データの取得に失敗しました'));
+      .then(rows => {
+        // データが空の場合も正常処理
+        const companies = Array.isArray(rows) ? rows : [];
+        self.cards(companies.map(toCardRow));
+        console.log(`${companies.length}件の企業データを読み込みました`);
+      })
+      .catch(error => {
+        console.error('API error:', error);
+        if (error.status) {
+          alert(`データの取得に失敗しました (HTTP ${error.status})`);
+        } else {
+          alert('ネットワークエラーが発生しました');
+        }
+      });
   };
 
   // ===== 追加 =====
@@ -126,7 +147,8 @@ function VM() {
       position_title: self.add.position_title().trim(),
       employment_type: self.add.employment_type().trim(),
       location_text: self.add.location_text().trim(),
-      description: self.add.memo().trim()              // UI→API
+      description: self.add.memo().trim(),             // UI→API
+      fuel_csrf_token: csrf()                          // CSRFトークン（要件13）
     };
 
     fetch('/api/companies', { method:'POST', headers: jsonHeaders(), body: JSON.stringify(payload) })
@@ -149,8 +171,7 @@ function VM() {
         self.resetAddForm();
         self.closeAdd();
         
-        // D&D機能を再初期化
-        setTimeout(() => self.initDragDrop(), 100);
+        // D&D機能は一度だけ初期化済みなので再初期化不要
       })
       .catch(err => alert('作成に失敗しました: ' + (err.error || 'unknown')));
   };
@@ -181,7 +202,8 @@ function VM() {
       position_title: self.edit.position_title().trim(),
       employment_type: self.edit.employment_type().trim(),
       location_text: self.edit.location_text().trim(),
-      description: self.edit.memo().trim()
+      description: self.edit.memo().trim(),
+      fuel_csrf_token: csrf()                          // CSRFトークン（要件13）
     };
 
     fetch(`/api/companies/${id}`, { method:'PUT', headers: jsonHeaders(), body: JSON.stringify(payload) })
@@ -195,7 +217,11 @@ function VM() {
   self.deleteCard = function(card) {
     if (!confirm('この応募を削除しますか？')) return;
     const id = card.id();
-    fetch(`/api/companies/${id}`, { method:'DELETE', headers:{ 'X-CSRF-Token': csrf() } })
+    fetch(`/api/companies/${id}`, { 
+      method:'DELETE', 
+      headers: jsonHeaders(),
+      body: JSON.stringify({ fuel_csrf_token: csrf() }) // CSRFトークン（要件13）
+    })
       .then(r => r.ok ? r.json() : r.json().then(e=>Promise.reject(e)))
       .then(() => { self.cards.remove(card); })
       .catch(err => alert('削除に失敗しました: ' + (err.error || 'unknown')));
@@ -207,48 +233,71 @@ function VM() {
       console.warn('jQuery UI Sortable が見つかりません。D&Dはスキップします。');
       return;
     }
-    // 既存のsortableを一旦破棄（重複初期化回避）
-    try { $('.sortable-container').sortable('destroy'); } catch(e){}
+    
+    // 既存のsortableを破棄
+    try { 
+      $('.sortable-container').sortable('destroy'); 
+    } catch(e){}
 
+    // Sortable初期化
     $('.sortable-container').sortable({
       connectWith: '.sortable-container',
       items: '.kanban-card',
       placeholder: 'kanban-card-placeholder',
       tolerance: 'pointer',
-      helper: 'original', // cloneではなくoriginalを使用して増殖を防ぐ
-      start: function(event, ui) { 
-        ui.placeholder.height(ui.item.height()); 
-        ui.item.data('start-status', ui.item.parent().attr('data-status'));
+      helper: function(event, item) {
+        // カスタムヘルパーでクローン問題を回避
+        return item.clone().addClass('sortable-helper');
+      },
+      appendTo: 'body',
+      zIndex: 1001,
+      
+      start: function(event, ui) {
+        ui.placeholder.height(ui.item.outerHeight());
+        ui.item.data('start-status', ui.item.closest('.sortable-container').attr('data-status'));
+        ui.item.data('original-id', ui.item.attr('data-id'));
       },
       
-      update: function(event, ui) {
-        // このコンテナ内でのソートのみ処理（他のコンテナからの受け取りは除外）
-        if (ui.sender) return; 
+      stop: function(event, ui) {
+        const id = Number(ui.item.data('original-id'));
+        const newContainer = ui.item.closest('.sortable-container');
+        const newStatus = newContainer.attr('data-status');
+        const oldStatus = ui.item.data('start-status');
+
+        // 同じ列内での移動は無視
+        if (oldStatus === newStatus || !id || !newStatus) {
+          return;
+        }
+
+        console.log(`Moving card ${id} from ${oldStatus} to ${newStatus}`);
         
-        const $item = ui.item;
-        const id = Number($item.attr('data-id'));
-        const newStatus = $(this).attr('data-status');
-        const oldStatus = $item.data('start-status');
-
-        if (!id || !newStatus || newStatus === oldStatus) return;
-
-        // 楽観的UI更新（先に見た目を変える）
+        // 即座にDOM操作を停止し、Knockout.jsに処理を移譲
+        ui.item.remove(); // jQuery UIが作成した要素を削除
+        
+        // Knockout.jsでデータ更新
         const card = self.cards().find(c => Number(c.id()) === id);
         if (card) {
-          card.status_key(newStatus);
+          const originalStatus = card.status_key();
           
-          // サーバ反映
+          // サーバー更新
           fetch(`/api/companies/${id}/status`, {
-            method:'PUT',
+            method: 'PUT',
             headers: jsonHeaders(),
-            body: JSON.stringify({ status_key: newStatus })
+            body: JSON.stringify({ 
+              status_key: newStatus,
+              fuel_csrf_token: csrf()
+            })
           })
-          .then(r => { if (!r.ok) throw new Error('server'); })
-          .catch(() => {
-            alert('ステータス変更に失敗しました（元に戻します）');
-            if (oldStatus) {
-              card.status_key(oldStatus);
-            }
+          .then(r => r.ok ? r.json() : Promise.reject(r))
+          .then(result => {
+            console.log('Status update successful:', result);
+            // サーバー更新成功後にKnockout.jsデータを更新
+            card.status_key(newStatus);
+          })
+          .catch(error => {
+            console.error('Status update failed:', error);
+            alert('ステータス変更に失敗しました');
+            // エラー時は元のまま（何もしない）
           });
         }
       }
@@ -267,7 +316,12 @@ function VM() {
   self.goSignup = function(){ window.location.href = '/signup'; };
 
   // 初期化
-  self.init = function() { self.loadCompanies(); };
+  self.init = function() { 
+    self.loadCompanies().then(() => {
+      // データ読み込み完了後にD&D初期化（一度だけ）
+      setTimeout(() => self.initDragDrop(), 100);
+    });
+  };
 }
 
 // knockoutを有効化 + 起動

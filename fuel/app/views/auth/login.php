@@ -10,6 +10,9 @@
     <p class="subtitle">アカウントにログインしてください</p>
 
     <form method="post" action="/auth/login" class="login-form">
+      <!-- CSRF保護（要件13：セキュリティ） -->
+      <?= \Form::csrf(); ?>
+      
       <!-- メール -->
       <label class="field">
         <div class="field__label-row">

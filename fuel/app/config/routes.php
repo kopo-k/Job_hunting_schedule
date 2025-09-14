@@ -3,6 +3,7 @@ return [
   '_root_' => 'kanban/index',
   'signup' => 'auth/signup',   
   'login'  => 'auth/login',
+  'logout' => 'auth/logout',
 
     // REST API（CRUD & D&D 専用）
     'api/statuses'                => 'api/statuses/index',        // GET

@@ -77,6 +77,27 @@ header {
 
 .sub   { font-size: 12px; color: #6b7280; }
 
+/* Header right section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right .user-name {
+  font-weight: 500;
+  color: #374151;
+}
+
+.header-right .logout-link {
+  color: #dc2626;
+  text-decoration: none;
+}
+
+.header-right .logout-link:hover {
+  text-decoration: underline;
+}
+
 /* Layout */
 main { padding: 16px 32px; }
 
@@ -406,6 +427,15 @@ input,select,textarea{
   transform: rotate(5deg);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   opacity: 0.9;
+  z-index: 1001 !important;
+}
+
+.kanban-card.dragging {
+  opacity: 0.5;
+}
+
+.ui-sortable-placeholder {
+  visibility: visible !important;
 }
 
 .kanban-content.ui-sortable {

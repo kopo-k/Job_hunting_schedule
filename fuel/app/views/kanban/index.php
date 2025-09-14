@@ -2,8 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>就活スケジューラー</title>
-  <!-- <meta name="csrf-token" content="<?= \Security::fetch_token(); ?>"> CSRF 一時的に無効化 -->
+  <title><?= \Config::get('custom.app_name', '就活スケジューラー') ?></title>
+  <!-- 要件13: セキュリティ機能（CSRF対策） -->
+  <meta name="csrf-token" content="<?= \Security::fetch_token(); ?>">
   <link rel="stylesheet" href="/assets/css/app.css">
 </head>
 <header>
@@ -31,7 +32,15 @@
     </div>
   </div>
 
-  <a class="sub" data-bind="click: goSignup">新規登録</a>
+  <div class="header-right">
+    <?php if (isset($is_logged_in) && $is_logged_in): ?>
+      <span class="sub user-name"><?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?></span>
+      <a href="/logout" class="sub logout-link">ログアウト</a>
+    <?php else: ?>
+      <a href="/login" class="sub">ログイン</a>
+      <a href="/signup" class="sub">新規登録</a>
+    <?php endif; ?>
+  </div>
 </header>
 
 <main>

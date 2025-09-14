@@ -32,4 +32,13 @@ class Controller_Base extends \Controller
             }
         }
     }
+    
+    /**
+     * 認証が必要かどうかを判定する
+     * サブクラスでオーバーライドして使用
+     */
+    protected function needs_auth()
+    {
+        return true; // デフォルトは認証必須
+    }
 }

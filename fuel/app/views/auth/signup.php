@@ -10,6 +10,9 @@
     <p class="subtitle">新しいアカウントを作成してください</p>
 
     <form method="post" action="/auth/signup" class="signup-form">
+      <!-- CSRF保護（要件13：セキュリティ） -->
+      <?= \Form::csrf(); ?>
+      
       <!-- お名前 -->
       <label class="field">
         <div class="field__label-row">
