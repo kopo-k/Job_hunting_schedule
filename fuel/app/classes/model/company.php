@@ -1,16 +1,17 @@
 <?php
-
+use Fuel\Core\Validation;
+use Fuel\Core\DB;
 /**
  * 企業モデル（要件5：名前空間、要件7: DBクラス使用, 要件8: 1:n関係, 要件9: CRUD）
  */
-class Model_Company extends \Model
+class Model_Company extends \Fuel\Core\Model
 {
     /**
      * バリデーションルール
      */
     public static function validate()
     {
-        $val = \Validation::forge();
+        $val = Validation::forge();
         $val->add('name', '企業名')
             ->add_rule('required')
             ->add_rule('max_length', 100);
@@ -35,7 +36,7 @@ class Model_Company extends \Model
      */
     public static function get_all_by_user($user_id)
     {
-        return \DB::select('c.*', 's.key', 's.label_ja', 's.color_hex')
+        return DB::select('c.*', 's.key', 's.label_ja', 's.color_hex')
             ->from(array('companies', 'c'))
             ->join(array('statuses', 's'), 'INNER')
             ->on('c.status_id', '=', 's.id')
@@ -73,7 +74,7 @@ class Model_Company extends \Model
      */
     public static function find_one($user_id, $company_id)
     {
-        return \DB::select()
+        return DB::select()
             ->from('companies')
             ->where('user_id', $user_id)
             ->where('id', $company_id)
@@ -115,7 +116,7 @@ class Model_Company extends \Model
             return 0;
         }
         
-        return \DB::update('companies')
+        return DB::update('companies')
             ->set($update_data)
             ->where('user_id', $user_id)
             ->where('id', $company_id)
@@ -127,7 +128,7 @@ class Model_Company extends \Model
      */
     public static function update_status($user_id, $company_id, $status_id)
     {
-        return \DB::update('companies')
+        return DB::update('companies')
             ->set(array('status_id' => (int)$status_id))
             ->where('user_id', $user_id)
             ->where('id', $company_id)
@@ -139,7 +140,7 @@ class Model_Company extends \Model
      */
     public static function delete_one($user_id, $company_id)
     {
-        return \DB::delete('companies')
+        return DB::delete('companies')
             ->where('user_id', $user_id)
             ->where('id', $company_id)
             ->execute();
@@ -150,7 +151,7 @@ class Model_Company extends \Model
      */
     public static function get_status_id_by_key($key)
     {
-        $result = \DB::select('id')
+        $result = DB::select('id')
             ->from('statuses')
             ->where('key', $key)
             ->execute()

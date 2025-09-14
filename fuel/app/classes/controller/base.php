@@ -1,6 +1,10 @@
 <?php
 
-class Controller_Base extends \Controller
+use Fuel\Core\Controller;
+use Fuel\Core\Session;
+use Fuel\Core\Response;
+
+class Controller_Base extends Controller
 {
     protected $current_user = null;
     
@@ -10,25 +14,25 @@ class Controller_Base extends \Controller
         
         // セッション開始
         try {
-            \Session::create();
+            Session::create();
         } catch (\Exception $e) {
             // セッションが既に開始されている場合は無視
         }
         
         // 認証が必要なページかチェック
         if ($this->needs_auth()) {
-            $user_id = \Session::get('user_id');
+            $user_id = Session::get('user_id');
             
             if ($user_id) {
                 try {
                     // ユーザー情報を取得（簡易的にセッションのIDをそのまま使用）
                     $this->current_user = $user_id;
                 } catch (Exception $e) {
-                    \Session::delete('user_id');
-                    \Response::redirect('auth/login');
+                    Session::delete('user_id');
+                    Response::redirect('auth/login');
                 }
             } else {
-                \Response::redirect('auth/login');
+                Response::redirect('auth/login');
             }
         }
     }

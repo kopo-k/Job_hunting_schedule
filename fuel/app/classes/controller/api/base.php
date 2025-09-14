@@ -1,7 +1,12 @@
 <?php
+
+use Fuel\Core\Controller_Rest;
+use Fuel\Core\Session;
+use Fuel\Core\Input;
+use Fuel\Core\Security;
 // fuel/app/classes/controller/api/base.php
 // API全体の共通ガード（認可＋CSRF）
-class Controller_Api_Base extends \Controller_Rest
+class Controller_Api_Base extends Controller_Rest
 {
     protected $format = 'json';
     protected $current_user = null;
@@ -11,17 +16,17 @@ class Controller_Api_Base extends \Controller_Rest
         parent::before();
 
         // 1) 認可：未ログインなら 401
-        $uid = \Session::get('user_id');
+        $uid = Session::get('user_id');
         if (!$uid) {
             return $this->response(['error' => 'unauthorized'], 401);
         }
         $this->current_user = (int) $uid;
 
         // 2) CSRF：GET/HEAD/OPTIONS 以外はトークン必須
-        $method = \Input::method();
+        $method = Input::method();
         if (!in_array($method, ['GET', 'HEAD', 'OPTIONS'], true)) {
-            $token = \Input::headers('X-CSRF-Token') ?: \Input::param('fuel_csrf_token');
-            if (!$token || !\Security::check_token($token)) {
+            $token = Input::headers('X-CSRF-Token') ?: Input::param('fuel_csrf_token');
+            if (!$token || !Security::check_token($token)) {
                 return $this->response(['error' => 'bad csrf'], 400);
             }
         }

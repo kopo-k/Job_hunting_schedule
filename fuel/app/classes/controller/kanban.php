@@ -1,5 +1,7 @@
 <?php
-
+use Fuel\Core\Session;
+use Fuel\Core\View;
+use Fuel\Core\DB;
 /**
  * Kanbanコントローラ（要件5：名前空間使用）
  */
@@ -11,12 +13,12 @@ class Controller_Kanban extends Controller_Base
         // $this->current_userに現在のユーザーIDが設定される
         
         // ログイン状態をビューに渡す
-        $user_id = \Session::get('user_id');
+        $user_id = Session::get('user_id');
         $user_name = 'ゲストユーザー';
         
         if ($user_id) {
             try {
-                $user = \DB::select('name')->from('users')->where('id', $user_id)->execute()->current();
+                $user = DB::select('name')->from('users')->where('id', $user_id)->execute()->current();
                 if ($user) {
                     $user_name = $user['name'];
                 }
@@ -30,6 +32,6 @@ class Controller_Kanban extends Controller_Base
             'user_name' => $user_name
         );
         
-        return \View::forge('kanban/index', $data);
+        return View::forge('kanban/index', $data);
     }
 }

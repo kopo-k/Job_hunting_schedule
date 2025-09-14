@@ -1,9 +1,15 @@
 <?php
+use Fuel\Core\Controller_Rest;
+use Fuel\Core\Config;
+use Fuel\Core\Session;
+use Fuel\Core\Response;
+use Fuel\Core\Input;
+use Fuel\Core\Log;
 
 /**
  * 企業API（要件5：名前空間使用）
  */
-class Controller_Api_Companies extends \Controller_Rest
+class Controller_Api_Companies extends Controller_Rest
 {
     protected $format = 'json';
     protected $current_user_id = null;
@@ -17,21 +23,21 @@ class Controller_Api_Companies extends \Controller_Rest
         parent::before();
         
         // API用にCSRFチェックを無効化（要件13対応、API専用）
-        \Config::set('security.csrf_autoload', false);
+        Config::set('security.csrf_autoload', false);
         
         // セッション開始（要件4：セッション使用）
         try {
-            \Session::create();
+            Session::create();
         } catch (\Exception $e) {
             // セッションが既に開始されている場合は無視
         }
         
         // 認証チェック（要件2：beforeMethod）
-        $user_id = \Session::get('user_id');
+        $user_id = Session::get('user_id');
         if (!$user_id) {
             // テスト用：未認証でもデモユーザーとして扱う（本番では削除）
             $user_id = 1; // デモユーザーID
-            \Session::set('user_id', $user_id);
+            Session::set('user_id', $user_id);
         }
         
         // 認証済みユーザーIDを保存
@@ -52,7 +58,7 @@ class Controller_Api_Companies extends \Controller_Rest
             if (empty($companies)) {
                 // FuelPHPのController_Restが204を返すのを防ぐため、明示的に200とJSONを設定
                 $this->format = 'json';
-                \Response::forge(json_encode(array()), 200, array('Content-Type' => 'application/json'))->send(true);
+                Response::forge(json_encode(array()), 200, array('Content-Type' => 'application/json'))->send(true);
                 return;
             }
             
@@ -67,10 +73,10 @@ class Controller_Api_Companies extends \Controller_Rest
     {
         try {
             $user_id = $this->current_user_id;
-            $input = \Input::json() ?: array();
+            $input = Input::json() ?: array();
             
             // status_keyをstatus_idに変換（要件3：config設定使用）
-            $default_status = \Config::get('custom.default_status', 'consider');
+            $default_status = Config::get('custom.default_status', 'consider');
             $status_key = isset($input['status_key']) ? $input['status_key'] : $default_status;
             $status_id = Model_Company::get_status_id_by_key($status_key);
             
@@ -114,8 +120,8 @@ class Controller_Api_Companies extends \Controller_Rest
     public function put_item($id)
     {
         try {
-            $user_id = \Session::get('user_id');
-            $input = \Input::json() ?: array();
+            $user_id = Session::get('user_id');
+            $input = Input::json() ?: array();
             
             // status_keyがある場合はstatus_idに変換
             if (isset($input['status_key'])) {
@@ -145,7 +151,7 @@ class Controller_Api_Companies extends \Controller_Rest
     public function delete_item($id)
     {
         try {
-            $user_id = \Session::get('user_id');
+            $user_id = Session::get('user_id');
             
             // DB削除
             $affected_rows = Model_Company::delete_one($user_id, (int)$id);
@@ -165,23 +171,23 @@ class Controller_Api_Companies extends \Controller_Rest
     public function put_status($id)
     {
         try {
-            $user_id = \Session::get('user_id');
-            $input = \Input::json() ?: array();
+            $user_id = Session::get('user_id');
+            $input = Input::json() ?: array();
             
             // デバッグログ
-            \Log::info("Status update request - ID: $id, User: $user_id, Input: " . json_encode($input));
+            Log::info("Status update request - ID: $id, User: $user_id, Input: " . json_encode($input));
             
             // status_keyをstatus_idに変換
             $status_id = Model_Company::get_status_id_by_key($input['status_key'] ?? '');
             if (!$status_id) {
-                \Log::error("Invalid status key: " . ($input['status_key'] ?? 'null'));
+                Log::error("Invalid status key: " . ($input['status_key'] ?? 'null'));
                 return $this->response(array('error' => '無効なステータスです'), 400);
             }
             
             // DBでステータス更新
             $affected_rows = Model_Company::update_status($user_id, (int)$id, $status_id);
             
-            \Log::info("Status update result - Affected rows: $affected_rows");
+            Log::info("Status update result - Affected rows: $affected_rows");
             
             return $this->response(array(
                 'id' => (int)$id,
@@ -192,7 +198,7 @@ class Controller_Api_Companies extends \Controller_Rest
             ));
             
         } catch (\Exception $e) {
-            \Log::error("Status update error: " . $e->getMessage());
+            Log::error("Status update error: " . $e->getMessage());
             return $this->response(array('error' => $e->getMessage()), 500);
         }
     }
