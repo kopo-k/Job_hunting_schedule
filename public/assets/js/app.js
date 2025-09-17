@@ -92,7 +92,7 @@ function VM() {
 
   // ===== 初期ロード =====
   self.loadCompanies = function() {
-    return fetch('/api/companies')
+    return fetch('/companies')
       .then(r => {
         if (r.ok) {
           // レスポンスが空の場合（204など）は空配列を返す
@@ -151,7 +151,7 @@ function VM() {
       fuel_csrf_token: csrf()                          // CSRFトークン（要件13）
     };
 
-    fetch('/api/companies', { method:'POST', headers: jsonHeaders(), body: JSON.stringify(payload) })
+    fetch('/companies', { method:'POST', headers: jsonHeaders(), body: JSON.stringify(payload) })
       .then(r => r.ok ? r.json() : r.json().then(e=>Promise.reject(e)))
       .then((result) => {
         // 新しいカードを手動でUIに追加
@@ -280,7 +280,7 @@ function VM() {
           const originalStatus = card.status_key();
           
           // サーバー更新
-          fetch(`/api/companies/${id}/status`, {
+          fetch(`/companies/${id}/status`, {
             method: 'PUT',
             headers: jsonHeaders(),
             body: JSON.stringify({ 

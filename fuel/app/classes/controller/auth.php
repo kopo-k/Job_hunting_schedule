@@ -78,6 +78,7 @@ class Controller_Auth extends Controller
 
             // 入力バリデーション
             $v = Validation::forge();
+            //新規登録のルールを設定
             $v->add('name', '名前')->add_rule('required')->add_rule('max_length', 50);
             $v->add('email', 'メール')->add_rule('required')->add_rule('valid_email')->add_rule('max_length', 255);
             $v->add('password', 'パスワード')->add_rule('required')->add_rule('min_length', 8);

@@ -9,7 +9,7 @@ use Fuel\Core\Log;
 /**
  * 企業API（要件5：名前空間使用）
  */
-class Controller_Api_Companies extends Controller_Rest
+class Controller_Companies extends Controller_Rest
 {
     protected $format = 'json';
     protected $current_user_id = null;
@@ -44,7 +44,7 @@ class Controller_Api_Companies extends Controller_Rest
         $this->current_user_id = $user_id;
     }
     
-    // GET /api/companies - 企業一覧取得（要件7,8,9: DB使用・1:n・Read）
+    // GET /companies - 企業一覧取得（要件7,8,9: DB使用・1:n・Read）
     public function get_index()
     {
         try {
@@ -68,7 +68,7 @@ class Controller_Api_Companies extends Controller_Rest
         }
     }
     
-    // POST /api/companies - 企業追加（要件7,9: DB使用・Create）
+    // POST /companies - 企業追加（要件7,9: DB使用・Create）
     public function post_index()
     {
         try {
@@ -116,7 +116,7 @@ class Controller_Api_Companies extends Controller_Rest
         }
     }
     
-    // PUT /api/companies/{id} - 企業更新（要件7,9: DB使用・Update）
+    // PUT /companies/{id} - 企業更新（要件7,9: DB使用・Update）
     public function put_item($id)
     {
         try {
@@ -147,7 +147,7 @@ class Controller_Api_Companies extends Controller_Rest
         }
     }
     
-    // DELETE /api/companies/{id} - 企業削除（要件7,9: DB使用・Delete）
+    // DELETE /companies/{id} - 企業削除（要件7,9: DB使用・Delete）
     public function delete_item($id)
     {
         try {
@@ -167,7 +167,7 @@ class Controller_Api_Companies extends Controller_Rest
         }
     }
     
-    // PUT /api/companies/{id}/status - ステータス更新（要件7,9: DB使用・Update・D&D用）
+    // PUT /companies/{id}/status - ステータス更新（要件7,9: DB使用・Update・D&D用）
     public function put_status($id)
     {
         try {

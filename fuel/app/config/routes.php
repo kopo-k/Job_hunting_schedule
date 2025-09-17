@@ -5,9 +5,9 @@ return [
   'login'  => 'auth/login',
   'logout' => 'auth/logout',
 
-    // REST API（CRUD & D&D 専用）
-    'api/statuses'                => 'api/statuses/index',        // GET
-    'api/companies'               => 'api/companies/index',       // GET/POST
-    'api/companies/(:num)'        => 'api/companies/item/$1',     // GET/PUT/DELETE
-    'api/companies/(:num)/status' => 'api/companies/status/$1',   // PUT（列移動）
+    // REST API（標準パターン）
+    'statuses'                => 'statuses/index',        // GET
+    'companies'               => 'companies/index',       // GET/POST
+    'companies/(:num)'        => 'companies/item/$1',     // GET/PUT/DELETE
+    'companies/(:num)/status' => 'companies/status/$1',   // PUT（列移動）
 ];

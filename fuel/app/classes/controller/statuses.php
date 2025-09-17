@@ -1,12 +1,13 @@
 <?php
 
+use Fuel\Core\Controller_Rest;
 use Fuel\Core\DB;
 
-// fuel/app/classes/controller/api/statuses.php
-
-class Controller_Api_Statuses extends Controller_Api_Base
+/**
+ * ステータスAPI（標準パターン）
+ */
+class Controller_Statuses extends Controller_Rest
 {
-    // jsで扱いやすくするためにAPIは常にJSONで返す
     protected $format = 'json';
 
     public function get_index()
